@@ -8,7 +8,7 @@ async function run() {
     const githubRepo = core.getInput("GITHUB_REPO", { required: true });
     let sourceRepo = core.getInput("SOURCE_REPO", { required: false });
     const targetBranches = core.getInput("TARGET_BRANCH", { required: true });
-    const githubToken = core.getInput("GITHUB_TOKEN", { required: true });
+    const githubToken = core.getInput("githubToken", { required: true });
     const title = core.getInput("TITLE", { required: false });
     const body = core.getInput("BODY", { required: false });
     const draft = core.getInput("DRAFT", { required: false });

@@ -21,19 +21,11 @@ async function createBranch(octokit, repo, sha, branch) {
         sha: sha,
         ...repo,
       });
-
-      const {owner, repo: repoName} = repo;
-      await octokit.request(`POST /repos/${owner}/${repoName}/git/refs`, {
+      await octokit.rest.git.createRef({
         ref: `refs/heads/${branch}`,
         sha: sha,
         ...repo,
       });
-
-      // await octokit.rest.git.createRef({
-      //   ref: `refs/heads/${branch}`,
-      //   sha: sha,
-      //   ...repo,
-      // });
       console.debug('Created branch...', branch);
     } else {
       console.log("Error while creating new branch");
@@ -8498,7 +8490,7 @@ async function run() {
     const githubRepo = core.getInput("GITHUB_REPO", { required: true });
     let sourceRepo = core.getInput("SOURCE_REPO", { required: false });
     const targetBranches = core.getInput("TARGET_BRANCH", { required: true });
-    const githubToken = core.getInput("GITHUB_TOKEN", { required: true });
+    const githubToken = core.getInput("githubToken", { required: true });
     const title = core.getInput("TITLE", { required: false });
     const body = core.getInput("BODY", { required: false });
     const draft = core.getInput("DRAFT", { required: false });

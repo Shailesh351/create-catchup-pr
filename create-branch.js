@@ -15,19 +15,11 @@ async function createBranch(octokit, repo, sha, branch) {
         sha: sha,
         ...repo,
       });
-
-      const {owner, repo: repoName} = repo;
-      await octokit.request(`POST /repos/${owner}/${repoName}/git/refs`, {
+      await octokit.rest.git.createRef({
         ref: `refs/heads/${branch}`,
         sha: sha,
         ...repo,
       });
-
-      // await octokit.rest.git.createRef({
-      //   ref: `refs/heads/${branch}`,
-      //   sha: sha,
-      //   ...repo,
-      // });
       console.debug('Created branch...', branch);
     } else {
       console.log("Error while creating new branch");
