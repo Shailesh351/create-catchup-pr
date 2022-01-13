@@ -42,6 +42,7 @@ async function run() {
       });
 
       if (!currentPull) {
+        console.debug('Creating pull request...');
         const { data: pullRequest } = await octokit.rest.pulls.create({
           ...repo,
           head: newBranch,
@@ -68,6 +69,7 @@ async function run() {
       }
     }
   } catch (error) {
+    console.error(error);
     core.setFailed(error.message);
   }
 }

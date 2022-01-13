@@ -5,11 +5,13 @@
 /***/ ((module) => {
 
 async function createBranch(octokit, repo, sha, branch) {
+  console.debug('Creating branch...', branch);
   try {
     await octokit.rest.repos.getBranch({
       ...repo,
       branch,
     });
+    console.debug('Created branch.');
   } catch (error) {
     if (error.name === "HttpError" && error.status === 404) {
       await octokit.rest.git.createRef({
@@ -8514,6 +8516,7 @@ async function run() {
       });
 
       if (!currentPull) {
+        console.debug('Creating pull request...');
         const { data: pullRequest } = await octokit.rest.pulls.create({
           ...repo,
           head: newBranch,
@@ -8540,6 +8543,7 @@ async function run() {
       }
     }
   } catch (error) {
+    console.error(error);
     core.setFailed(error.message);
   }
 }
