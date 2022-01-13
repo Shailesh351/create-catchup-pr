@@ -16,7 +16,7 @@ async function run() {
     const targetBranchesArray = targetBranches.split(",");
     const repo = { repo: githubRepo.split("/")[1], owner: githubRepo.split("/")[0] };
 
-    const octokit = new github.GitHub(null, {auth: githubToken});
+    const octokit = new github.GitHub('', {auth: githubToken});
 
     const { data: currentPulls } = await octokit.pulls.list(repo);
 
