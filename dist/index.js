@@ -8488,7 +8488,7 @@ async function run() {
     const targetBranchesArray = targetBranches.split(",");
     const repo = { repo: githubRepo.split("/")[1], owner: githubRepo.split("/")[0] };
 
-    const octokit = new github.GitHub(githubToken);
+    const octokit = github.getOctokit(githubToken);
 
     const { data: currentPulls } = await octokit.rest.pulls.list(repo);
 
@@ -8505,7 +8505,7 @@ async function run() {
     for (let branch of targetBranchesArray) {
 
       console.log(`Making a pull request for ${branch} from ${sourceRepo}:${sourceBranch}.`);
-      
+
       const newBranch = `${branch}-catchup-${sha.slice(0,7)}`;
       await createBranch(octokit, repo, sha, newBranch);
 
