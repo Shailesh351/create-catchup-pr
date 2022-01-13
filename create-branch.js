@@ -1,8 +1,9 @@
-async function createBranch(octokit, repo, sha, branch) {
+async function createBranch(octokit, owner, repo, sha, branch) {
   try {
     console.debug('Checking branch...', branch);
     await octokit.rest.repos.getBranch({
-      ...repo,
+      owner,
+      repo,
       branch,
     });
     console.debug('Branch exists');
@@ -13,12 +14,14 @@ async function createBranch(octokit, repo, sha, branch) {
       console.debug({
         ref: `refs/heads/${branch}`,
         sha: sha,
-        ...repo,
+        owner,
+        repo,
       });
       await octokit.rest.git.createRef({
         ref: `refs/heads/${branch}`,
-        sha: sha,
-        ...repo,
+        sha,
+        owner,
+        repo,
       });
       console.debug('Created branch...', branch);
     } else {

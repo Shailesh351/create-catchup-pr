@@ -5,7 +5,7 @@ branding:
   icon: git-pull-request
   color: green
 inputs:
-  githubToken:
+  GITHUB_TOKEN:
     description: "User token to be associated with this pull request."
     required: true
   GITHUB_REPO:

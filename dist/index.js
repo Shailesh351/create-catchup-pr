@@ -4,11 +4,12 @@
 /***/ 5152:
 /***/ ((module) => {
 
-async function createBranch(octokit, repo, sha, branch) {
+async function createBranch(octokit, owner, repo, sha, branch) {
   try {
     console.debug('Checking branch...', branch);
     await octokit.rest.repos.getBranch({
-      ...repo,
+      owner,
+      repo,
       branch,
     });
     console.debug('Branch exists');
@@ -19,12 +20,14 @@ async function createBranch(octokit, repo, sha, branch) {
       console.debug({
         ref: `refs/heads/${branch}`,
         sha: sha,
-        ...repo,
+        owner,
+        repo,
       });
       await octokit.rest.git.createRef({
         ref: `refs/heads/${branch}`,
-        sha: sha,
-        ...repo,
+        sha,
+        owner,
+        repo,
       });
       console.debug('Created branch...', branch);
     } else {
@@ -8490,7 +8493,7 @@ async function run() {
     const githubRepo = core.getInput("GITHUB_REPO", { required: true });
     let sourceRepo = core.getInput("SOURCE_REPO", { required: false });
     const targetBranches = core.getInput("TARGET_BRANCH", { required: true });
-    const githubToken = core.getInput("githubToken", { required: true });
+    const githubToken = core.getInput("GITHUB_TOKEN", { required: true });
     const title = core.getInput("TITLE", { required: false });
     const body = core.getInput("BODY", { required: false });
     const draft = core.getInput("DRAFT", { required: false });
@@ -8517,7 +8520,7 @@ async function run() {
       console.log(`Making a pull request for ${branch} from ${sourceRepo}:${sourceBranch}.`);
 
       const newBranch = `${branch}-catchup-${sha.slice(0,7)}`;
-      await createBranch(octokit, repo, sha, newBranch);
+      await createBranch(octokit, repo.owner, repo.repo, sha, newBranch);
 
       const currentPull = currentPulls.find((pull) => {
         return pull.head.ref === newBranch && pull.base.ref === branch;
