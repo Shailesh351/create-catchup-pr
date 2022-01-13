@@ -18,13 +18,13 @@ async function run() {
 
     const octokit = new github.GitHub(githubToken);
 
-    const { data: currentPulls } = await octokit.pulls.list(repo);
+    const { data: currentPulls } = await octokit.rest.pulls.list(repo);
 
     if (!sourceRepo) {
       sourceRepo = repo.owner;
     }
 
-    const { data: { commit: { sha } } } = await octokit.repos.getBranch({
+    const { data: { commit: { sha } } } = await octokit.rest.repos.getBranch({
       owner: sourceRepo,
       repo: repo.repo,
       branch: sourceBranch,
@@ -42,7 +42,7 @@ async function run() {
       });
 
       if (!currentPull) {
-        const { data: pullRequest } = await octokit.pulls.create({
+        const { data: pullRequest } = await octokit.rest.pulls.create({
           ...repo,
           head: newBranch,
           base: branch,
