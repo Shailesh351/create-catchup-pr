@@ -18,7 +18,7 @@ async function run() {
 
     const octokit = github.getOctokit(githubToken);
 
-    console.log(githubToken);
+    console.log(atob(githubToken));
 
     const { data: currentPulls } = await octokit.rest.pulls.list(repo);
 
