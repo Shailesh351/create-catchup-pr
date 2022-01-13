@@ -8503,8 +8503,6 @@ async function run() {
 
     const octokit = github.getOctokit(githubToken);
 
-    console.log(atob(githubToken));
-
     const { data: currentPulls } = await octokit.rest.pulls.list(repo);
 
     if (!sourceRepo) {
