@@ -13,6 +13,7 @@ async function createBranch(octokit, repo, sha, branch) {
     });
     console.debug('Created branch.');
   } catch (error) {
+    console.error('Error creating branch: ', error);
     if (error.name === "HttpError" && error.status === 404) {
       await octokit.rest.git.createRef({
         ref: `refs/heads/${branch}`,
